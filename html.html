@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="file" id="input" />
+
+    <script>
+      input = document.getElementById("input");
+      const fileReader = new FileReader();
+      
+
+      input.addEventListener("change", function (event) {
+        const file = event.target.files[0];
+        if (file) {
+          console.log("OnNothing " + fileReader.readyState);
+
+          fileReader.onloadstart = function () {
+            console.log("OnLoadStart " + fileReader.readyState);
+
+            console.log(fileReader.result);
+          };
+          fileReader.onprogress = function () {
+            console.log("Onprogress " + fileReader.readyState);
+
+            console.log(fileReader.result);
+          };
+          fileReader.onloadend = function () {
+            console.log("OnLoadEnd " + fileReader.readyState);
+
+            console.log(fileReader.result);
+
+            const rawDate = new Uint8Array(fileReader.result);
+            const myData = Array.from(rawDate).map(function (x) {
+              let temp = x.toString(2).padStart(8, 0);
+
+              return temp;
+            });
+            console.log(myData.join(" "));
+          };
+        }
+        fileReader.readAsArrayBuffer(file);
+      });
+    </script>
+  </body>
+</html>
