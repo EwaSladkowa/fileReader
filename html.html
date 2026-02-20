@@ -11,7 +11,6 @@
     <script>
       input = document.getElementById("input");
       const fileReader = new FileReader();
-      
 
       input.addEventListener("change", function (event) {
         const file = event.target.files[0];
@@ -35,9 +34,13 @@
 
             const rawDate = new Uint8Array(fileReader.result);
             const myData = Array.from(rawDate).map(function (x) {
-              let temp = x.toString(2).padStart(8, 0);
-
-              return temp;
+              if ((x >= 97 && x <= 122) || (x >= 65 && x <= 90)) {
+                x = x + 6;
+                return String.fromCharCode(x);
+              } else {
+                let temp = x.toString(2).padStart(8, 0);
+                return temp;
+              }
             });
             console.log(myData.join(" "));
           };
